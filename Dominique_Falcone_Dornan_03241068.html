@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Dominique_Falcone_Dornan_03241068</title>
+</head>
+<body>
+     Distância percorrida: <input id="input_dist" type="text"><br>
+     Duração da viagem: <input id="input_duracao" type="text"><br>
+     Quantidade de passageiros: <input id="input_pass" type="text"><br>
+     Hora do início da viagem : <input id="input_hora" type="text"><br>
+
+     <button onclick="viagem()">Realizar viagem</button>
+     <button onclick="end()">Encerrar Dia</button><br><br>
+     <div id="div_totalH"></div><br>
+     <div id="div_final"></div><br>
+    
+
+     
+</body>
+</html>
+
+<script>
+     var totalH = 0
+     var faturamento = 0
+     var gasUsado = 0
+     var lucro = 0
+     function viagem() {
+          var dist = input_dist.value
+          var Vtotal = Number(dist * 0.77) 
+          var estima = Number(dist * 1.8)
+          var estimaDesc = estima - (estima * 0.1)
+          var estimaAcr = estima + (estima * 0.1)
+          var desc = Number(Vtotal *0.08)
+          var acr = Number(Vtotal * 0.07)
+          var bonus = (Vtotal * 0.09)
+          var adic = (Vtotal * 0.11)
+          var gas = dist / 12
+          var gasP = gas * 4
+
+          if (input_duracao.value > estimaAcr) {
+               Vtotal = Vtotal + acr
+          }
+          if (input_duracao.value < estimaDesc) {
+               Vtotal = Vtotal - desc
+          }
+          if (input_hora.value <= 6) {
+               Vtotal = Vtotal - bonus
+          }
+          if (input_hora.value > 20) {
+               Vtotal = Vtotal + adic
+          }
+          if (input_pass.value > 1) {
+               Vtotal = Vtotal + (input_pass.value * 3)
+          }
+          totalH =  totalH + (Number(input_duracao.value) / 60)
+          faturamento = faturamento + Vtotal
+          gasUsado = gasUsado + gasP
+          lucro = lucro + (Vtotal - gasP)
+
+          div_final.innerHTML += `A viagem foi iniciada às ${input_hora.value} horas
+          e tinha estimativa de ${estima} minutos e durou ${input_duracao.value} minutos,
+          percorrendo ${input_dist.value}KM, com ${input_pass.value} passageiros,
+          totalizando R$${Vtotal} do preço da corrida. 
+          Com essa distância, foram consumidos ${gas} litros de gasolina,
+          totalizando R$${gasP} de consumo.<br><br>`
+     }
+     function end() {
+          div_final.innerHTML = `EXTRATO DO DIA <br>
+
+          Total de Horas Trabalhadas: ${totalH} <br>
+
+          Faturamento Total: R$${faturamento} <br>
+
+          Total de Combustível Consumido: R$${gasUsado} <br>
+
+          Lucro Líquido: R$${lucro} <br><br>`
+          
+          if (totalH > 6) {
+               div_totalH.innerHTML = `Você já trabalhou bastante hoje! Hora de descansar!`
+          }else
+               div_totalH.innerHTML = `Você ainda deve trabalhar mais até cumprir sua cota do dia!`
+
+
+          totalH = 0
+          faturamento = 0
+          gasUsado = 0
+          lucro = 0
+
+}
+
+
+
+
+
+</script>
